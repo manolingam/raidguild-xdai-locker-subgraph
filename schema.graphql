@@ -6,8 +6,8 @@ type Locker @entity {
   lockerToken: Bytes!
   lockerValue: BigInt!
   perMilestoneSplit: [BigInt!]!
-  spoilsPayment: BigInt!
-  providerPayment: BigInt!
+  perMilestoneSpoilsPayment: BigInt!
+  perMilestoneProviderPayment: BigInt!
   timestamp: BigInt!
   txHash: Bytes!
 
@@ -54,7 +54,6 @@ type Resolve @entity {
   id: ID!
   resolverAddress: Bytes!
   clientAward: BigInt!
-  # providerAward: [Bytes!]!
   resolutionFee: BigInt!
   locker: Locker!
   timestamp: BigInt!

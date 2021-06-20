@@ -28,8 +28,8 @@ export function handleRegisterLocker(event: RegisterLockerEvent): void {
   locker.perMilestoneSplit = event.params.batch;
 
   let paymentSplit = event.params.batch;
-  locker.providerPayment = paymentSplit[0];
-  locker.spoilsPayment = paymentSplit[1];
+  locker.perMilestoneProviderPayment = paymentSplit[0];
+  locker.perMilestoneSpoilsPayment = paymentSplit[1];
 
   locker.timestamp = event.block.timestamp;
   locker.txHash = event.transaction.hash;
@@ -52,11 +52,9 @@ export function handleRelease(event: ReleaseEvent): void {
   let release = new Release(event.params.index.toHexString());
   let locker = Locker.load(event.params.index.toHexString());
 
-  // let lockerContract = LockerContract.bind(event.address);
-
-  // let totalDeposited = locker.lockerValue
-  let paymentPerMilestone = locker.providerPayment.plus(locker.spoilsPayment);
-  // let totalReleased = lockerContract.lockers(event.params.index).value6;
+  let paymentPerMilestone = locker.perMilestoneProviderPayment.plus(
+    locker.perMilestoneSpoilsPayment
+  );
 
   release.amount = paymentPerMilestone;
   release.timestamp = event.block.timestamp;
