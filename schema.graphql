@@ -5,15 +5,17 @@ type Locker @entity {
   resolverAddress: Bytes!
   lockerToken: Bytes!
   lockerValue: BigInt!
-  milestones: [BigInt!]!
+  perMilestoneSplit: [BigInt!]!
+  spoilsPayment: BigInt!
+  providerPayment: BigInt!
   timestamp: BigInt!
   txHash: Bytes!
 
-  depositedAmount: Deposit!
-  withdrawnAmount: Withdraw!
+  depositedAmount: Deposit @derivedFrom(field: "locker")
+  withdrawnAmount: Withdraw @derivedFrom(field: "locker")
   releasedAmount: [Release!] @derivedFrom(field: "locker")
-  lockedAmount: [Lock!]! @derivedFrom(field: "locker")
-  resolvedAmount: [Resolve!]! @derivedFrom(field: "locker")
+  lockedAmount: [Lock!] @derivedFrom(field: "locker")
+  resolvedAmount: [Resolve!] @derivedFrom(field: "locker")
 }
 
 type Deposit @entity {
