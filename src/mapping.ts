@@ -44,7 +44,7 @@ export function handleConfirmLocker(event: ConfirmLockerEvent): void {
   deposit.amount = event.params.sum;
   deposit.timestamp = event.block.timestamp;
   deposit.txHash = event.transaction.hash;
-  deposit.locker = event.params.index.toHexString();
+  deposit.locker = locker.id;
 
   locker.save();
   deposit.save();
@@ -61,10 +61,10 @@ export function handleRelease(event: ReleaseEvent): void {
 
   let lockerContract = LockerContract.bind(event.address);
 
-  release.amount = lockerContract.lockers(locker.lockerIndex).value6;
+  release.amount = lockerContract.lockers(event.params.index).value6;
   release.timestamp = event.block.timestamp;
   release.txHash = event.transaction.hash;
-  release.locker = event.params.index.toHexString();
+  release.locker = locker.id;
 
   locker.save();
   release.save();
@@ -82,7 +82,7 @@ export function handleWithdraw(event: WithdrawEvent): void {
   withdraw.amount = event.params.remainder;
   withdraw.timestamp = event.block.timestamp;
   withdraw.txHash = event.transaction.hash;
-  withdraw.locker = event.params.index.toHexString();
+  withdraw.locker = locker.id;
 
   locker.save();
   withdraw.save();
@@ -104,7 +104,7 @@ export function handleLock(event: LockEvent): void {
     .value5.minus(lockerContract.lockers(event.params.index).value6);
   lock.timestamp = event.block.timestamp;
   lock.txHash = event.transaction.hash;
-  lock.locker = event.params.index.toHexString();
+  lock.locker = locker.id;
 
   locker.save();
   lock.save();
@@ -122,7 +122,7 @@ export function handleResolve(event: ResolveEvent): void {
   resolve.resolverAddress = event.params.resolver;
   resolve.clientAward = event.params.clientAward;
   resolve.resolutionFee = event.params.resolutionFee;
-  resolve.locker = event.params.index.toHexString();
+  resolve.locker = locker.id;
   resolve.timestamp = event.block.timestamp;
   resolve.txHash = event.transaction.hash;
 
