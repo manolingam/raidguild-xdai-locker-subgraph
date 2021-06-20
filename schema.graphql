@@ -1,0 +1,60 @@
+type Locker @entity {
+  id: ID!
+  lockerIndex: BigInt!
+  clientAddress: Bytes!
+  resolverAddress: Bytes!
+  lockerToken: Bytes!
+  lockerValue: BigInt!
+  milestones: [BigInt!]!
+  timestamp: BigInt!
+  txHash: Bytes!
+
+  depositedAmount: Deposit!
+  withdrawnAmount: Withdraw!
+  releasedAmount: [Release!] @derivedFrom(field: "locker")
+  lockedAmount: [Lock!]! @derivedFrom(field: "locker")
+  resolvedAmount: [Resolve!]! @derivedFrom(field: "locker")
+}
+
+type Deposit @entity {
+  id: ID!
+  amount: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+  locker: Locker!
+}
+
+type Release @entity {
+  id: ID!
+  amount: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+  locker: Locker!
+}
+
+type Lock @entity {
+  id: ID!
+  amount: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+  locker: Locker!
+}
+
+type Withdraw @entity {
+  id: ID!
+  amount: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+  locker: Locker!
+}
+
+type Resolve @entity {
+  id: ID!
+  resolverAddress: Bytes!
+  clientAward: BigInt!
+  # providerAward: [Bytes!]!
+  resolutionFee: BigInt!
+  locker: Locker!
+  timestamp: BigInt!
+  txHash: Bytes!
+}
